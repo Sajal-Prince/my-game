@@ -1,10 +1,11 @@
-var player , playerImage , playerJump , playerRun , playerDead;
-var path1 , path2 , path3 , path4 , path5 , path6 , path7;
+var player , playerImage , playerJump , playerRun , playerDead , playerHealth = 100;
+var path1 , path2 , path3 , path4 , path5 , path6 , path7 , path8 , path9 , path10;
+var bullet1 , bullet1Group , bullet2 , bullet2Group , bullet3 , bullet3Group , bullet4 , bullet4Group
 var gameState = 0;
-var randPathY1 = 230
-var randPathY2 = 160
-var randomPathYArray = [randPathY1,randPathY2];
-var randomPath1Y , randomPath2Y , randomPath3Y , randomPath4Y , randomPath5Y , randomPath6Y , randomPath7Y;
+var enemy1 , enemy1Health = 100;
+var enemy2 , enemy2Health = 100;
+var enemy3 , enemy3Health = 100;
+var enemy4 , enemy4Health = 100;
 
 function preload()
 {
@@ -20,17 +21,17 @@ function preload()
 function setup()
 {
         createCanvas(10000 , 700);
-        setFrameRate(30)
+        
 
         player = createSprite(-4000,150,10,10);
         player.addImage(playerImage);
         player.addAnimation("Run",playerRun);
         player.addAnimation("Idle",playerIdle);
         player.addAnimation("Jump",playerJump);
-        player.scale = 0.2
+        player.scale = 0.2;
         camera.y = player.y;
 
-
+        
 
         ball1=createSprite(-2000 , 150 , 10 , 10)
         ball1.setVelocity(player.x, player.y)
@@ -38,22 +39,23 @@ function setup()
         
         player.debug = true;
         player.setCollider("rectangle",50,0,300,450)
-        
-        randomPath1Y = random(randomPathYArray)
-        randomPath2Y = random(randomPathYArray)
-        randomPath3Y = random(randomPathYArray)
-        randomPath4Y = random(randomPathYArray)
-        randomPath5Y = random(randomPathYArray)
-        randomPath6Y = random(randomPathYArray)
-        randomPath7Y = random(randomPathYArray)
 
-        path1 = createSprite(-4000,randomPath1Y,500,50);
-        path2 = createSprite(path1.x+600,randomPath2Y,500,50);
-        path3 = createSprite(path2.x+600,randomPath3Y,500,50);
-        path4 = createSprite(path3.x+600,randomPath4Y,500,50);
-        path5 = createSprite(path4.x+600,randomPath5Y,500,50);
-        path6 = createSprite(path5.x+600,randomPath6Y,500,50);
-        path7 = createSprite(path6.x+600,randomPath7Y,500,50);
+        path1 = createSprite(-4000,random(230,160),500,50);
+        path2 = createSprite(path1.x+600,random(230,160),500,50);
+        path3 = createSprite(path2.x+600,random(230,160),500,50);
+        path4 = createSprite(path3.x+600,random(230,160),500,50);
+        path5 = createSprite(path4.x+600,random(230,160),500,50);
+        path6 = createSprite(path5.x+600,random(230,160),500,50);
+        path7 = createSprite(path6.x+600,random(230,160),500,50);
+        path8 = createSprite(path7.x+600,random(230,160),500,50);
+        path9 = createSprite(path8.x+600,random(230,160),500,50);
+        path10 = createSprite(path9.x+600,random(230,160),500,50);
+
+        bullet1Group = createGroup()
+        bullet2Group = createGroup()
+        bullet3Group = createGroup()
+        bullet4Group = createGroup()
+
 }
 
 
@@ -61,15 +63,18 @@ function draw()
 {   
         background("white");
         
-       
+        textSize(20)
+        text("Health : "+ playerHealth , player.x , 400)
 
-      
+        bulletDamage();
+        Enemies1();
+        Enemies2();
+        Enemies3();
+        Enemies4();
         gravity();
         cameraMovement();
         movement();
         colliding();
         drawSprites();
-      
-        console.log(frameRate());
 }
 
